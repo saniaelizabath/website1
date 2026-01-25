@@ -1,83 +1,496 @@
+
+
+// // src/components/AdminDashboard.jsx
+// import { useState, useEffect } from "react";
+// import API from "../api";
+
+// const AdminDashboard = ({ newsEvents, setNewsEvents, careers, setCareers }) => {
+//   const [activeTab, setActiveTab] = useState("news");
+
+//   const [editingNewsId, setEditingNewsId] = useState(null);
+//   const [editingCareerId, setEditingCareerId] = useState(null);
+
+//   const [newsForm, setNewsForm] = useState({
+//     title: "",
+//     description: "",
+//     image: null,
+//     imagePreview: "",
+//   });
+
+//   const [careerForm, setCareerForm] = useState({
+//     title: "",
+//     description: "",
+//     location: "",
+//   });
+
+//   // -------------------------
+//   // Load existing data
+//   // -------------------------
+//   const loadNews = async () => {
+//     const res = await API.get("/news");
+//     setNewsEvents(
+//       res.data.map((item) => ({
+//         id: item.id,
+//         title: item.title,
+//         description: item.description,
+//         image: `http://127.0.0.1:8000/${item.image_path}`,
+//         date: String(new Date().getFullYear()),
+//       }))
+//     );
+//   };
+
+//   const loadCareers = async () => {
+//     const res = await API.get("/jobs");
+//     setCareers(
+//       res.data.map((job) => ({
+//         id: job.id,
+//         title: job.title,
+//         description: job.description,
+//         location: "India",
+//         postedDate: new Date().toLocaleDateString(),
+//       }))
+//     );
+//   };
+
+//   useEffect(() => {
+//     loadNews();
+//     loadCareers();
+//   }, []);
+
+//   // -------------------------
+//   // Image Preview
+//   // -------------------------
+//   const handleNewsImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (!file) return;
+
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       setNewsForm({
+//         ...newsForm,
+//         image: file,
+//         imagePreview: reader.result,
+//       });
+//     };
+//     reader.readAsDataURL(file);
+//   };
+
+//   // -------------------------
+//   // ADD / UPDATE NEWS
+//   // -------------------------
+//   const handleNewsSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const formData = new FormData();
+//       formData.append("title", newsForm.title);
+//       formData.append("description", newsForm.description);
+//       if (newsForm.image) {
+//         formData.append("image", newsForm.image);
+//       }
+
+//       if (editingNewsId) {
+//         await API.put(`/news/${editingNewsId}`, formData);
+//         setEditingNewsId(null);
+//       } else {
+//         await API.post("/news", formData);
+//       }
+
+//       await loadNews();
+//       setNewsForm({ title: "", description: "", image: null, imagePreview: "" });
+//       alert("News/Event saved successfully!");
+//     } catch (err) {
+//       console.error(err);
+//       alert("Failed to save news");
+//     }
+//   };
+
+//   // -------------------------
+//   // EDIT / DELETE NEWS
+//   // -------------------------
+//   const handleEditNews = (item) => {
+//     setEditingNewsId(item.id);
+//     setNewsForm({
+//       title: item.title,
+//       description: item.description,
+//       image: null,
+//       imagePreview: item.image,
+//     });
+//   };
+
+//   const handleDeleteNews = async (id) => {
+//     if (!window.confirm("Delete this news/event?")) return;
+//     await API.delete(`/news/${id}`);
+//     await loadNews();
+//   };
+
+//   // -------------------------
+//   // ADD / UPDATE CAREER
+//   // -------------------------
+//   const handleCareerSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       if (editingCareerId) {
+//         await API.put(`/jobs/${editingCareerId}`, {
+//           title: careerForm.title,
+//           description: careerForm.description,
+//         });
+//         setEditingCareerId(null);
+//       } else {
+//         await API.post("/jobs", {
+//           title: careerForm.title,
+//           description: careerForm.description,
+//         });
+//       }
+
+//       await loadCareers();
+//       setCareerForm({ title: "", description: "", location: "" });
+//       alert("Career saved successfully!");
+//     } catch (err) {
+//       console.error(err);
+//       alert("Failed to save career");
+//     }
+//   };
+
+//   // -------------------------
+//   // EDIT / DELETE CAREER
+//   // -------------------------
+//   const handleEditCareer = (job) => {
+//     setEditingCareerId(job.id);
+//     setCareerForm({
+//       title: job.title,
+//       description: job.description,
+//       location: job.location,
+//     });
+//   };
+
+//   const handleDeleteCareer = async (id) => {
+//     if (!window.confirm("Delete this job posting?")) return;
+//     await API.delete(`/jobs/${id}`);
+//     await loadCareers();
+//   };
+
+//   // -------------------------
+//   // UI (UNCHANGED)
+//   // -------------------------
+//   return (
+//     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 pt-32 pb-20">
+//       <div className="container mx-auto px-6">
+//         <div className="text-center mb-12">
+//           <h1 className="text-5xl font-bold text-white mb-4">
+//             Admin{" "}
+//             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+//               Dashboard
+//             </span>
+//           </h1>
+//           <p className="text-blue-200">Manage website content and postings</p>
+//         </div>
+
+//         {/* Tabs */}
+//         <div className="max-w-4xl mx-auto mb-8">
+//           <div className="flex gap-4 bg-slate-800/50 p-2 rounded-xl">
+//             <button
+//               onClick={() => setActiveTab("news")}
+//               className={`flex-1 py-3 rounded-lg ${
+//                 activeTab === "news"
+//                   ? "bg-blue-600 text-white"
+//                   : "text-blue-300"
+//               }`}
+//             >
+//               News & Events
+//             </button>
+//             <button
+//               onClick={() => setActiveTab("careers")}
+//               className={`flex-1 py-3 rounded-lg ${
+//                 activeTab === "careers"
+//                   ? "bg-blue-600 text-white"
+//                   : "text-blue-300"
+//               }`}
+//             >
+//               Careers
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* NEWS */}
+//         {activeTab === "news" && (
+//           <div className="max-w-4xl mx-auto space-y-6">
+//             <form onSubmit={handleNewsSubmit} className="space-y-4">
+//               <input
+//                 type="text"
+//                 value={newsForm.title}
+//                 onChange={(e) =>
+//                   setNewsForm({ ...newsForm, title: e.target.value })
+//                 }
+//                 required
+//                 placeholder="Title"
+//                 className="w-full px-4 py-3"
+//               />
+//               <input type="file" accept="image/*" onChange={handleNewsImageChange} />
+//               {newsForm.imagePreview && (
+//                 <img src={newsForm.imagePreview} className="h-40 rounded-lg" />
+//               )}
+//               <textarea
+//                 value={newsForm.description}
+//                 onChange={(e) =>
+//                   setNewsForm({ ...newsForm, description: e.target.value })
+//                 }
+//                 required
+//                 rows="5"
+//                 className="w-full px-4 py-3"
+//               />
+//               <button className="w-full py-4 bg-blue-600 text-white">
+//                 {editingNewsId ? "Update News/Event" : "Add News/Event"}
+//               </button>
+//             </form>
+
+//             {newsEvents.map((item) => (
+//               <div key={item.id} className="flex justify-between bg-slate-800 p-4">
+//                 <span className="text-white">{item.title}</span>
+//                 <div className="flex gap-3">
+//                   <button onClick={() => handleEditNews(item)}>Edit</button>
+//                   <button onClick={() => handleDeleteNews(item.id)}>Delete</button>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         )}
+
+//         {/* CAREERS */}
+//         {activeTab === "careers" && (
+//           <div className="max-w-4xl mx-auto space-y-6">
+//             <form onSubmit={handleCareerSubmit} className="space-y-4">
+//               <input
+//                 type="text"
+//                 value={careerForm.title}
+//                 onChange={(e) =>
+//                   setCareerForm({ ...careerForm, title: e.target.value })
+//                 }
+//                 required
+//                 placeholder="Job Title"
+//                 className="w-full px-4 py-3"
+//               />
+//               <textarea
+//                 value={careerForm.description}
+//                 onChange={(e) =>
+//                   setCareerForm({ ...careerForm, description: e.target.value })
+//                 }
+//                 required
+//                 rows="5"
+//                 className="w-full px-4 py-3"
+//               />
+//               <button className="w-full py-4 bg-blue-600 text-white">
+//                 {editingCareerId ? "Update Career" : "Add Career"}
+//               </button>
+//             </form>
+
+//             {careers.map((job) => (
+//               <div key={job.id} className="flex justify-between bg-slate-800 p-4">
+//                 <span className="text-white">{job.title}</span>
+//                 <div className="flex gap-3">
+//                   <button onClick={() => handleEditCareer(job)}>Edit</button>
+//                   <button onClick={() => handleDeleteCareer(job.id)}>Delete</button>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminDashboard;
+
+
+
+
 // src/components/AdminDashboard.jsx
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import API from "../api";
 
 const AdminDashboard = ({ newsEvents, setNewsEvents, careers, setCareers }) => {
-  const [activeTab, setActiveTab] = useState('news');
+  const [activeTab, setActiveTab] = useState("news");
+
+  const [editingNewsId, setEditingNewsId] = useState(null);
+  const [editingCareerId, setEditingCareerId] = useState(null);
+
   const [newsForm, setNewsForm] = useState({
-    title: '',
-    description: '',
+    title: "",
+    description: "",
+    date: "",
     image: null,
-    imagePreview: ''
-  });
-  const [careerForm, setCareerForm] = useState({
-    title: '',
-    description: '',
-    location: ''
+    imagePreview: "",
   });
 
-  // Handle News Form
+  const [careerForm, setCareerForm] = useState({
+    title: "",
+    description: "",
+    location: "",
+  });
+
+  // =========================
+  // LOAD DATA
+  // =========================
+  const loadNews = async () => {
+    const res = await API.get("/news");
+    setNewsEvents(
+      res.data.map((item) => ({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        date: item.date,
+        image: `http://127.0.0.1:8000/${item.image_path}`,
+      }))
+    );
+  };
+
+  const loadCareers = async () => {
+    const res = await API.get("/jobs");
+    setCareers(
+      res.data.map((job) => ({
+        id: job.id,
+        title: job.title,
+        description: job.description,
+        location: job.location,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    loadNews();
+    loadCareers();
+  }, []);
+
+  // =========================
+  // IMAGE PREVIEW
+  // =========================
   const handleNewsImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewsForm({
-          ...newsForm,
-          image: file,
-          imagePreview: reader.result
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+    if (!file) return;
 
-  const handleNewsSubmit = (e) => {
-    e.preventDefault();
-    const newEvent = {
-      id: Date.now(),
-      title: newsForm.title,
-      description: newsForm.description,
-      image: newsForm.imagePreview,
-      date: new Date().toLocaleDateString()
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNewsForm((prev) => ({
+        ...prev,
+        image: file,
+        imagePreview: reader.result,
+      }));
     };
-    setNewsEvents([...newsEvents, newEvent]);
-    setNewsForm({ title: '', description: '', image: null, imagePreview: '' });
-    alert('News/Event added successfully!');
+    reader.readAsDataURL(file);
   };
 
-  const handleCareerSubmit = (e) => {
+  // =========================
+  // ADD / UPDATE NEWS
+  // =========================
+  const handleNewsSubmit = async (e) => {
     e.preventDefault();
-    const newCareer = {
-      id: Date.now(),
-      title: careerForm.title,
-      description: careerForm.description,
-      location: careerForm.location,
-      postedDate: new Date().toLocaleDateString()
-    };
-    setCareers([...careers, newCareer]);
-    setCareerForm({ title: '', description: '', location: '' });
-    alert('Career posting added successfully!');
-  };
 
-  const handleDeleteNews = (id) => {
-    if (window.confirm('Are you sure you want to delete this news/event?')) {
-      setNewsEvents(newsEvents.filter(item => item.id !== id));
+    try {
+      const formData = new FormData();
+      formData.append("title", newsForm.title);
+      formData.append("description", newsForm.description);
+      formData.append("date", newsForm.date);
+
+      if (newsForm.image) {
+        formData.append("image", newsForm.image);
+      }
+
+      if (editingNewsId) {
+        await API.put(`/news/${editingNewsId}`, formData);
+        setEditingNewsId(null);
+      } else {
+        await API.post("/news", formData);
+      }
+
+      await loadNews();
+      setNewsForm({
+        title: "",
+        description: "",
+        date: "",
+        image: null,
+        imagePreview: "",
+      });
+
+      alert("News/Event saved successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save news");
     }
   };
 
-  const handleDeleteCareer = (id) => {
-    if (window.confirm('Are you sure you want to delete this career posting?')) {
-      setCareers(careers.filter(item => item.id !== id));
+  // =========================
+  // EDIT / DELETE NEWS
+  // =========================
+  const handleEditNews = (item) => {
+    setEditingNewsId(item.id);
+    setNewsForm({
+      title: item.title,
+      description: item.description,
+      date: item.date,
+      image: null,
+      imagePreview: item.image,
+    });
+  };
+
+  const handleDeleteNews = async (id) => {
+    if (!window.confirm("Delete this news/event?")) return;
+    await API.delete(`/news/${id}`);
+    await loadNews();
+  };
+
+  // =========================
+  // ADD / UPDATE CAREER
+  // =========================
+  const handleCareerSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (editingCareerId) {
+        await API.put(`/jobs/${editingCareerId}`, careerForm);
+        setEditingCareerId(null);
+      } else {
+        await API.post("/jobs", careerForm);
+      }
+
+      await loadCareers();
+      setCareerForm({ title: "", description: "", location: "" });
+
+      alert("Career saved successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save career");
     }
   };
 
+  // =========================
+  // EDIT / DELETE CAREER
+  // =========================
+  const handleEditCareer = (job) => {
+    setEditingCareerId(job.id);
+    setCareerForm({
+      title: job.title,
+      description: job.description,
+      location: job.location,
+    });
+  };
+
+  const handleDeleteCareer = async (id) => {
+    if (!window.confirm("Delete this job posting?")) return;
+    await API.delete(`/jobs/${id}`);
+    await loadCareers();
+  };
+
+  // =========================
+  // UI (UNCHANGED)
+  // =========================
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 pt-32 pb-20">
       <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 show">
           <h1 className="text-5xl font-bold text-white mb-4">
-            Admin <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Dashboard</span>
+            Admin <span className="text-cyan-400">Dashboard</span>
           </h1>
           <p className="text-blue-200">Manage website content and postings</p>
         </div>
@@ -86,21 +499,21 @@ const AdminDashboard = ({ newsEvents, setNewsEvents, careers, setCareers }) => {
         <div className="max-w-4xl mx-auto mb-8">
           <div className="flex gap-4 bg-slate-800/50 p-2 rounded-xl">
             <button
-              onClick={() => setActiveTab('news')}
-              className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                activeTab === 'news'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
-                  : 'text-blue-300 hover:text-white'
+              onClick={() => setActiveTab("news")}
+              className={`flex-1 py-3 rounded-lg ${
+                activeTab === "news"
+                  ? "bg-blue-600 text-white"
+                  : "text-blue-300"
               }`}
             >
               News & Events
             </button>
             <button
-              onClick={() => setActiveTab('careers')}
-              className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all duration-300 ${
-                activeTab === 'careers'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg'
-                  : 'text-blue-300 hover:text-white'
+              onClick={() => setActiveTab("careers")}
+              className={`flex-1 py-3 rounded-lg ${
+                activeTab === "careers"
+                  ? "bg-blue-600 text-white"
+                  : "text-blue-300"
               }`}
             >
               Careers
@@ -108,156 +521,116 @@ const AdminDashboard = ({ newsEvents, setNewsEvents, careers, setCareers }) => {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          {/* News & Events Form */}
-          {activeTab === 'news' && (
-            <div className="space-y-8">
-              <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
-                <h2 className="text-2xl font-bold text-white mb-6">Add News/Event</h2>
-                <form onSubmit={handleNewsSubmit} className="space-y-6">
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Title *</label>
-                    <input
-                      type="text"
-                      value={newsForm.title}
-                      onChange={(e) => setNewsForm({...newsForm, title: e.target.value})}
-                      required
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500"
-                      placeholder="Event title"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Image *</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleNewsImageChange}
-                      required
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500"
-                    />
-                    {newsForm.imagePreview && (
-                      <img src={newsForm.imagePreview} alt="Preview" className="mt-4 h-40 rounded-lg object-cover" />
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Description *</label>
-                    <textarea
-                      value={newsForm.description}
-                      onChange={(e) => setNewsForm({...newsForm, description: e.target.value})}
-                      required
-                      rows="6"
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 resize-none"
-                      placeholder="Event description..."
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
-                  >
-                    Add News/Event
-                  </button>
-                </form>
-              </div>
+        {/* NEWS */}
+        {activeTab === "news" && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <form onSubmit={handleNewsSubmit} className="space-y-4">
+              <input
+                type="text"
+                value={newsForm.title}
+                onChange={(e) =>
+                  setNewsForm({ ...newsForm, title: e.target.value })
+                }
+                required
+                placeholder="Title"
+                className="w-full px-4 py-3"
+              />
 
-              {/* Existing News/Events */}
-              {newsEvents.length > 0 && (
-                <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
-                  <h3 className="text-xl font-bold text-white mb-6">Existing News/Events</h3>
-                  <div className="space-y-4">
-                    {newsEvents.map((item) => (
-                      <div key={item.id} className="bg-slate-900/50 p-4 rounded-lg border border-blue-500/20 flex justify-between items-start">
-                        <div className="flex-1">
-                          <h4 className="text-white font-semibold">{item.title}</h4>
-                          <p className="text-blue-300 text-sm mt-1">{item.date}</p>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteNews(item.id)}
-                          className="text-red-400 hover:text-red-300 transition-colors"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <input
+                type="date"
+                value={newsForm.date}
+                onChange={(e) =>
+                  setNewsForm({ ...newsForm, date: e.target.value })
+                }
+                required
+                className="w-full px-4 py-3"
+              />
+
+              <input type="file" accept="image/*" onChange={handleNewsImageChange} />
+
+              {newsForm.imagePreview && (
+                <img src={newsForm.imagePreview} className="h-40 rounded-lg" />
               )}
-            </div>
-          )}
 
-          {/* Careers Form */}
-          {activeTab === 'careers' && (
-            <div className="space-y-8">
-              <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
-                <h2 className="text-2xl font-bold text-white mb-6">Add Career Opening</h2>
-                <form onSubmit={handleCareerSubmit} className="space-y-6">
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Job Title *</label>
-                    <input
-                      type="text"
-                      value={careerForm.title}
-                      onChange={(e) => setCareerForm({...careerForm, title: e.target.value})}
-                      required
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500"
-                      placeholder="e.g., Marine Engineer"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Location *</label>
-                    <input
-                      type="text"
-                      value={careerForm.location}
-                      onChange={(e) => setCareerForm({...careerForm, location: e.target.value})}
-                      required
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500"
-                      placeholder="e.g., Kochi, Kerala"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-blue-200 mb-2 font-medium">Job Description *</label>
-                    <textarea
-                      value={careerForm.description}
-                      onChange={(e) => setCareerForm({...careerForm, description: e.target.value})}
-                      required
-                      rows="8"
-                      className="w-full bg-slate-900/50 border border-blue-500/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500 resize-none"
-                      placeholder="Job requirements, responsibilities, qualifications..."
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
-                  >
-                    Add Career Opening
-                  </button>
-                </form>
-              </div>
+              <textarea
+                value={newsForm.description}
+                onChange={(e) =>
+                  setNewsForm({ ...newsForm, description: e.target.value })
+                }
+                required
+                rows="5"
+                className="w-full px-4 py-3"
+              />
 
-              {/* Existing Careers */}
-              {careers.length > 0 && (
-                <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-blue-500/20">
-                  <h3 className="text-xl font-bold text-white mb-6">Existing Career Openings</h3>
-                  <div className="space-y-4">
-                    {careers.map((item) => (
-                      <div key={item.id} className="bg-slate-900/50 p-4 rounded-lg border border-blue-500/20 flex justify-between items-start">
-                        <div className="flex-1">
-                          <h4 className="text-white font-semibold">{item.title}</h4>
-                          <p className="text-cyan-400 text-sm mt-1">{item.location}</p>
-                          <p className="text-blue-300 text-sm">{item.postedDate}</p>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteCareer(item.id)}
-                          className="text-red-400 hover:text-red-300 transition-colors"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+              <button className="w-full py-4 bg-blue-600 text-white">
+                {editingNewsId ? "Update News/Event" : "Add News/Event"}
+              </button>
+            </form>
+
+            {newsEvents.map((item) => (
+              <div key={item.id} className="flex justify-between bg-slate-800 p-4">
+                <span className="text-white">{item.title}</span>
+                <div className="flex gap-3">
+                  <button onClick={() => handleEditNews(item)}>Edit</button>
+                  <button onClick={() => handleDeleteNews(item.id)}>Delete</button>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CAREERS */}
+        {activeTab === "careers" && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <form onSubmit={handleCareerSubmit} className="space-y-4">
+              <input
+                type="text"
+                value={careerForm.title}
+                onChange={(e) =>
+                  setCareerForm({ ...careerForm, title: e.target.value })
+                }
+                required
+                placeholder="Job Title"
+                className="w-full px-4 py-3"
+              />
+
+              <input
+                type="text"
+                value={careerForm.location}
+                onChange={(e) =>
+                  setCareerForm({ ...careerForm, location: e.target.value })
+                }
+                required
+                placeholder="Location"
+                className="w-full px-4 py-3"
+              />
+
+              <textarea
+                value={careerForm.description}
+                onChange={(e) =>
+                  setCareerForm({ ...careerForm, description: e.target.value })
+                }
+                required
+                rows="5"
+                className="w-full px-4 py-3"
+              />
+
+              <button className="w-full py-4 bg-blue-600 text-white">
+                {editingCareerId ? "Update Career" : "Add Career"}
+              </button>
+            </form>
+
+            {careers.map((job) => (
+              <div key={job.id} className="flex justify-between bg-slate-800 p-4">
+                <span className="text-white">{job.title}</span>
+                <div className="flex gap-3">
+                  <button onClick={() => handleEditCareer(job)}>Edit</button>
+                  <button onClick={() => handleDeleteCareer(job.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
