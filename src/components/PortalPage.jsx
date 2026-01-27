@@ -1,9 +1,9 @@
 // src/components/PortalPage.jsx
 const PortalPage = ({ setCurrentPage, setIsAdmin }) => {
   const handleAdminLogin = () => {
-    setIsAdmin(true);
-    setCurrentPage('admin-dashboard');
+    setCurrentPage("admin-login");
   };
+
 
   const handleEmployeeLogin = () => {
     setIsAdmin(false);

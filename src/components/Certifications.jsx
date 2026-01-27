@@ -1,80 +1,142 @@
-// src/components/Certifications.jsx
-const Certifications = () => {
+// src/components/Accreditation.jsx
+import { useEffect, useState } from 'react';
+
+const Accreditation = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('accreditation');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
   const certifications = [
     {
-      name: "ISO 9001:2015",
-      description: "Certified Company",
-      image: "https://via.placeholder.com/200x200/1e3a8a/60a5fa?text=ISO+9001:2015"
+      image: "/awlogo/iso.png",
+      title: "ISO 9001:2015",
+      subtitle: "Certified Company",
+      description: "Quality Management System certification ensuring consistent delivery of high-quality marine services."
     },
     {
-      name: "Kerala Startup Mission",
-      description: "Recognized Startup",
-      image: "https://via.placeholder.com/200x200/0891b2/06b6d4?text=Kerala+Startup"
+      image: "/awlogo/smission.png",
+      title: "Kerala Startup Mission",
+      subtitle: "Recognized Startup",
+      description: "Officially recognized by Kerala Startup Mission for innovation in marine engineering solutions."
     },
     {
-      name: "Startup India",
-      description: "Government Recognized",
-      image: "https://via.placeholder.com/200x200/f59e0b/fbbf24?text=Startup+India"
+      image: "/awlogo/startup.png",
+      title: "Startup India",
+      subtitle: "Government Recognized",
+      description: "Certified by the Government of India's Startup India initiative for entrepreneurial excellence."
     },
     {
-      name: "MSME",
-      description: "Ministry of MSME, Govt. of India",
-      image: "https://via.placeholder.com/200x200/1e40af/3b82f6?text=MSME+India"
+      image: "/awlogo/msme.png",
+      title: "MSME",
+      subtitle: "Ministry of MSME, Govt. of India",
+      description: "Registered as a Micro, Small & Medium Enterprise, committed to supporting India's industrial growth."
     }
   ];
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-blue-950 to-slate-900">
-      <div className="container mx-auto px-6">
+    <section 
+      id="accreditation"
+      className="relative overflow-hidden min-h-screen flex items-center"
+    >
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/awlogo/finalcert.webp)' }}
+        ></div>
+        
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-white/20"></div>
+        
+        {/* Optional: Additional gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30"></div>
+      </div>
+
+      <div 
+        className={`container mx-auto px-6 relative z-10 transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">
-            ACCREDITATION & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">CERTIFICATION</span>
+        <div className="text-center mb-12">
+          <h2 className="text-5xl md:text-6xl font-light text-slate-800 mb-3 tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
+            ACCREDITATION & <span className="text-blue-700">CERTIFICATION</span>
           </h2>
-          <p className="text-blue-200 text-lg">
+          <div className="w-24 h-0.5 bg-blue-700 mx-auto mt-5 mb-5"></div>
+          <p className="text-slate-700 text-lg mb-3 font-light" style={{ fontFamily: 'Georgia, serif' }}>
             Recognized and certified by leading institutions
+          </p>
+          <p className="text-blue-800 text-xl font-light italic" style={{ fontFamily: 'Georgia, serif' }}>
+            Where marine challenges meet reliable solutions.
           </p>
         </div>
 
-        {/* Certifications Grid */}
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Certifications Grid - Larger */}
+        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {certifications.map((cert, index) => (
-            <div 
+            <div
               key={index}
-              className="group relative bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-blue-500/20 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-3 flex flex-col items-center"
+              className="group relative bg-white/75 backdrop-blur-md rounded-2xl border border-blue-300/40 hover:border-blue-500/70 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-300/50 transform hover:-translate-y-2"
             >
-              {/* Image Container */}
-              <div className="w-full aspect-square mb-4 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center p-4">
-                <img 
-                  src={cert.image} 
-                  alt={cert.name}
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                />
+              {/* Content */}
+              <div className="relative p-6 flex flex-col items-center text-center">
+                {/* Image Container */}
+                <div className="w-full h-40 mb-4 flex items-center justify-center bg-slate-50/80 rounded-xl p-4">
+                  <img
+                    src={cert.image}
+                    alt={cert.title}
+                    className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+
+                {/* Text Content */}
+                <div className="flex-1 flex flex-col">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-2 group-hover:text-blue-700 transition-colors" style={{ fontFamily: 'Georgia, serif' }}>
+                    {cert.title}
+                  </h3>
+                  <p className="text-blue-600 text-sm mb-3 font-light">
+                    {cert.subtitle}
+                  </p>
+                  <p className="text-slate-600 text-sm leading-relaxed font-light" style={{ fontFamily: 'Georgia, serif' }}>
+                    {cert.description}
+                  </p>
+                </div>
               </div>
-
-              {/* Text */}
-              <h3 className="text-white font-bold text-center mb-2 group-hover:text-cyan-400 transition-colors duration-300">
-                {cert.name}
-              </h3>
-              <p className="text-blue-300 text-sm text-center">
-                {cert.description}
-              </p>
-
-              {/* Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/10 group-hover:to-transparent rounded-2xl transition-all duration-500"></div>
             </div>
           ))}
         </div>
 
-        {/* Additional Info */}
-        <div className="text-center mt-12">
-          <p className="text-blue-200 text-sm max-w-2xl mx-auto">
-            Our certifications demonstrate our commitment to quality, safety, and continuous improvement in all our marine services.
-          </p>
+        {/* Bottom Description */}
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white/60 backdrop-blur-md rounded-2xl border border-blue-300/40 p-6">
+            <p className="text-slate-700 text-base leading-relaxed font-light text-center" style={{ fontFamily: 'Georgia, serif' }}>
+              Our certifications demonstrate our commitment to quality, safety, and continuous improvement in all our marine services. 
+              We adhere to international standards and best practices, ensuring excellence and reliability.
+            </p>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        /* Background image styles are handled inline */
+      `}</style>
     </section>
   );
 };
 
-export default Certifications;
+export default Accreditation;

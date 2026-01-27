@@ -1,105 +1,122 @@
 // src/components/Clients.jsx
+import { useEffect, useRef } from 'react';
+
 const Clients = () => {
-  const clients = [
-    { name: "L&T Shipbuilding", logo: "https://via.placeholder.com/150x80/1e3a8a/60a5fa?text=L%26T" },
-    { name: "Indian Coast Guard", logo: "https://via.placeholder.com/150x80/0891b2/06b6d4?text=Coast+Guard" },
-    { name: "Johnson Controls", logo: "https://via.placeholder.com/150x80/1e40af/3b82f6?text=Johnson" },
-    { name: "Garden Reach Shipbuilders", logo: "https://via.placeholder.com/150x80/0369a1/0ea5e9?text=GRSE" },
-    { name: "Ocean Sparkle Limited", logo: "https://via.placeholder.com/150x80/075985/0284c7?text=Ocean+Sparkle" },
-    { name: "Kongsberg", logo: "https://via.placeholder.com/150x80/dc2626/ef4444?text=Kongsberg" },
-    { name: "Chowgule SBD", logo: "https://via.placeholder.com/150x80/1e3a8a/60a5fa?text=Chowgule" },
-    { name: "Indian Navy", logo: "https://via.placeholder.com/150x80/0891b2/06b6d4?text=Indian+Navy" },
-    { name: "Solas Marine", logo: "https://via.placeholder.com/150x80/1e40af/3b82f6?text=Solas" },
-    { name: "Gmmco CAT", logo: "https://via.placeholder.com/150x80/f59e0b/fbbf24?text=CAT" },
-    { name: "Cochin Shipyard", logo: "https://via.placeholder.com/150x80/0369a1/0ea5e9?text=Cochin+SY" },
-    { name: "MSC Kreuzfahrten", logo: "https://via.placeholder.com/150x80/075985/0284c7?text=MSC" },
-    { name: "WSPL", logo: "https://via.placeholder.com/150x80/dc2626/ef4444?text=WSPL" },
-    { name: "Mazagon Dock", logo: "https://via.placeholder.com/150x80/1e3a8a/60a5fa?text=Mazagon" },
-    { name: "BEML", logo: "https://via.placeholder.com/150x80/0891b2/06b6d4?text=BEML" },
-    { name: "L&T Defence", logo: "https://via.placeholder.com/150x80/1e40af/3b82f6?text=L%26T+Defence" },
-    { name: "Hindustan Shipyard", logo: "https://via.placeholder.com/150x80/0369a1/0ea5e9?text=HSL" },
-    { name: "Adani Ports", logo: "https://via.placeholder.com/150x80/075985/0284c7?text=Adani" },
-    { name: "Naval Ship Repair Yard", logo: "https://via.placeholder.com/150x80/dc2626/ef4444?text=NSRY" }
+  const scrollRef1 = useRef(null);
+  const scrollRef2 = useRef(null);
+
+  const clientsRow1 = [
+    { name: "L&T Shipbuilding", logo: "/clientlogo/LT-Shipbuilding.png" },
+    { name: "Indian Coast Guard", logo: "/clientlogo/indiancoastguard.avif" },
+    { name: "Johnson Controls", logo: "/clientlogo/johnsoncontrols.png" },
+    { name: "Garden Reach Shipbuilders", logo: "/clientlogo/grse.jpg" },
+    { name: "Ocean Sparkle Limited", logo: "/clientlogo/Ocean-Sparkle-Limited.jpg" },
+    { name: "Kongsberg", logo: "/clientlogo/kongsberg-digital.png" },
+    { name: "Chowgule SBD", logo: "/clientlogo/chowglue.jpeg" },
+    { name: "Indian Navy", logo: "/clientlogo/indiannavyusnavy.png" },
+    { name: "Solas Marine", logo: "/clientlogo/solas.jpg" },
+    { name: "Gmmco CAT", logo: "/clientlogo/gmmco.png" }
+  ];
+
+  const clientsRow2 = [
+    { name: "Cochin Shipyard", logo: "/clientlogo/cochin-shipyard.jpg" },
+    { name: "MSC Kreuzfahrten", logo: "/clientlogo/msc.jpg" },
+    { name: "WSPL", logo: "/clientlogo/wspl.png" },
+    { name: "Mazagon Dock", logo: "/clientlogo/naval-ship-karwar.png" },
+    { name: "UDUPI", logo: "/clientlogo/udupi.jpeg" },
+    { name: "L&T Defence", logo: "/clientlogo/LTdefence.jpg" },
+    { name: "Hindustan Shipyard", logo: "/clientlogo/hsl.jpg" },
+    { name: "Adani Ports", logo: "/clientlogo/Adani-Port-Container-Tracking.webp" },
+    { name: "USS Salvor", logo: "/clientlogo/USS_Salvor.jpg" }
   ];
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-blue-950 to-slate-900">
-      <div className="container mx-auto px-6">
+    <section className="relative py-24 bg-gradient-to-b from-slate-50 to-blue-50 overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">
-            OUR <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">CLIENTS</span>
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-light text-slate-800 mb-4 tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>
+            Our <span className="text-blue-700">Clients</span>
           </h2>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
-            Trusted by leading organizations in the marine and defense sectors across India
+          <div className="w-20 h-0.5 bg-blue-600 mx-auto mt-6"></div>
+          <p className="text-slate-600 text-lg max-w-2xl mx-auto mt-8 font-light" style={{ fontFamily: 'Georgia, serif' }}>
+            Trusted partnerships with leading organizations
           </p>
         </div>
 
-        {/* Clients Grid */}
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {clients.map((client, index) => (
-              <div 
+        {/* Infinite Scrolling Row 1 - Left to Right */}
+        <div className="relative mb-12 overflow-hidden">
+          <div className="flex gap-12 animate-scroll-left">
+            {[...clientsRow1, ...clientsRow1].map((client, index) => (
+              <div
                 key={index}
-                className="group relative bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-blue-500/20 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-xl hover:shadow-cyan-500/20 transform hover:-translate-y-2 flex items-center justify-center aspect-video"
-                style={{ 
-                  animationDelay: `${index * 50}ms`,
-                  animation: 'fadeIn 0.6s ease-out forwards',
-                  opacity: 0
-                }}
+                className="flex-shrink-0 w-48 h-32 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-6 flex items-center justify-center group hover:scale-110 border border-slate-200"
               >
-                {/* Logo */}
-                <img 
-                  src={client.logo} 
+                <img
+                  src={client.logo}
                   alt={client.name}
-                  className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                  className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
                 />
+              </div>
+            ))}
+          </div>
+        </div>
 
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/10 group-hover:to-transparent rounded-xl transition-all duration-500"></div>
-
-                {/* Client Name Tooltip */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                  <div className="bg-slate-800 text-cyan-400 text-xs px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
-                    {client.name}
-                  </div>
-                </div>
+        {/* Infinite Scrolling Row 2 - Right to Left */}
+        <div className="relative overflow-hidden">
+          <div className="flex gap-12 animate-scroll-right">
+            {[...clientsRow2, ...clientsRow2].map((client, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-48 h-32 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-6 flex items-center justify-center group hover:scale-110 border border-slate-200"
+              >
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100"
+                />
               </div>
             ))}
           </div>
         </div>
 
         {/* Stats Section */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-          <div className="text-center">
-            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
-              50+
+        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+          <div className="text-center group">
+            <div className="text-5xl font-light text-blue-700 mb-3 group-hover:scale-110 transition-transform" style={{ fontFamily: 'Georgia, serif' }}>
+              50<span className="text-blue-500">+</span>
             </div>
-            <div className="text-blue-200 text-sm uppercase tracking-wider">
+            <div className="text-slate-600 text-sm uppercase tracking-widest font-light">
               Active Clients
             </div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
-              500+
+          <div className="text-center group">
+            <div className="text-5xl font-light text-blue-700 mb-3 group-hover:scale-110 transition-transform" style={{ fontFamily: 'Georgia, serif' }}>
+              500<span className="text-blue-500">+</span>
             </div>
-            <div className="text-blue-200 text-sm uppercase tracking-wider">
+            <div className="text-slate-600 text-sm uppercase tracking-widest font-light">
               Projects Delivered
             </div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
-              15+
+          <div className="text-center group">
+            <div className="text-5xl font-light text-blue-700 mb-3 group-hover:scale-110 transition-transform" style={{ fontFamily: 'Georgia, serif' }}>
+              15<span className="text-blue-500">+</span>
             </div>
-            <div className="text-blue-200 text-sm uppercase tracking-wider">
+            <div className="text-slate-600 text-sm uppercase tracking-widest font-light">
               Years Experience
             </div>
           </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">
-              100%
+          <div className="text-center group">
+            <div className="text-5xl font-light text-blue-700 mb-3 group-hover:scale-110 transition-transform" style={{ fontFamily: 'Georgia, serif' }}>
+              100<span className="text-blue-500">%</span>
             </div>
-            <div className="text-blue-200 text-sm uppercase tracking-wider">
+            <div className="text-slate-600 text-sm uppercase tracking-widest font-light">
               Client Satisfaction
             </div>
           </div>
@@ -107,15 +124,35 @@ const Clients = () => {
       </div>
 
       <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+        @keyframes scroll-left {
+          0% {
+            transform: translateX(0);
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          100% {
+            transform: translateX(-50%);
           }
+        }
+
+        @keyframes scroll-right {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        .animate-scroll-left {
+          animation: scroll-left 40s linear infinite;
+        }
+
+        .animate-scroll-right {
+          animation: scroll-right 40s linear infinite;
+        }
+
+        .animate-scroll-left:hover,
+        .animate-scroll-right:hover {
+          animation-play-state: paused;
         }
       `}</style>
     </section>

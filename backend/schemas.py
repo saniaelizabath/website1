@@ -1,4 +1,10 @@
-from pydantic import BaseModel
+
+from pydantic import BaseModel, EmailStr
+
+class AdminLogin(BaseModel):
+    email: EmailStr
+    password: str
+
 
 class JobCreate(BaseModel):
     title: str
