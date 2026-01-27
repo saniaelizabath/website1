@@ -124,7 +124,7 @@
 #     token = str(uuid.uuid4())
 #     reset_tokens[token] = email
 
-#     reset_link = f"http://localhost:5173/reset-password?token={token}"
+#     reset_link = f"http://localhost:5173/?token={token}"
 
 #     send_email(
 #         to=email,
@@ -359,7 +359,6 @@ def get_db():
 # ----------------------------
 # @app.post("/news")
 
-
 @app.post("/auth/login")
 def admin_login(
     email: str = Form(...),
@@ -563,3 +562,248 @@ def delete_job(job_id: int, db: Session = Depends(get_db)):
     db.delete(job)
     db.commit()
     return {"message": "Job deleted"}
+
+
+# ----------------------------
+# Employee APIs
+# ----------------------------
+from datetime import date
+from location_utils import is_location_allowed
+
+@app.get("/employees")
+def get_employees(db: Session = Depends(get_db)):
+    """Get all employees (for portal display)"""
+    employees = db.query(models.Employee).all()
+    return employees
+
+
+@app.post("/employee/login")
+def employee_login(
+    email: str = Form(...),
+    password: str = Form(...),
+    employee_id: int = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Employee login - verify credentials"""
+    # Fetch employee from database
+    employee = db.query(models.Employee).filter(
+        models.Employee.id == employee_id,
+        models.Employee.email == email
+    ).first()
+    
+    if not employee:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    # Check password (plain text comparison)
+    if employee.password_hash != password:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    return {
+        "message": "Login successful",
+        "employee": {
+            "id": employee.id,
+            "name": employee.name,
+            "email": employee.email
+        }
+    }
+
+
+@app.post("/employee/forgot-password")
+def employee_forgot_password(
+    employee_id: int = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Send password reset email to employee"""
+    # Fetch the employee
+    employee = db.query(models.Employee).filter(models.Employee.id == employee_id).first()
+    
+    if not employee:
+        raise HTTPException(status_code=404, detail="Employee not found")
+    
+    email = employee.email
+    token = str(uuid.uuid4())
+    reset_tokens[token] = {"email": email, "employee_id": employee_id, "type": "employee"}
+
+    reset_link = f"http://localhost:5173/?token={token}&type=employee"
+
+    send_email(
+        to=email,
+        subject="Reset Employee Password",
+        body=f"""
+Hello {employee.name},
+
+Click the link below to reset your password:
+
+{reset_link}
+
+If you did not request this, please ignore this email.
+"""
+    )
+
+    return {"message": "Reset link sent successfully"}
+
+
+@app.post("/employee/reset-password")
+def employee_reset_password(
+    token: str = Form(...),
+    new_password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Reset employee password"""
+    if token not in reset_tokens:
+        raise HTTPException(status_code=400, detail="Invalid or expired token")
+
+    token_data = reset_tokens[token]
+    
+    if token_data.get("type") != "employee":
+        raise HTTPException(status_code=400, detail="Invalid token type")
+    
+    employee_id = token_data.get("employee_id")
+    
+    # Find employee and update password
+    employee = db.query(models.Employee).filter(models.Employee.id == employee_id).first()
+    
+    if not employee:
+        raise HTTPException(status_code=404, detail="Employee not found")
+    
+    # Update password in database
+    employee.password_hash = new_password
+    db.commit()
+    
+    # Remove used token
+    del reset_tokens[token]
+
+    return {"message": "Password reset successful"}
+
+
+# ----------------------------
+# Attendance APIs
+# ----------------------------
+
+@app.post("/attendance/mark-in")
+def mark_attendance_in(
+    employee_id: int = Form(...),
+    latitude: float = Form(...),
+    longitude: float = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Mark attendance IN - check location first"""
+    
+    # Verify location
+    location_check = is_location_allowed(latitude, longitude)
+    
+    if not location_check["allowed"]:
+        raise HTTPException(
+            status_code=403, 
+            detail="You are not at an allowed location. Please go to the office to mark attendance."
+        )
+    
+    # Check if employee exists
+    employee = db.query(models.Employee).filter(models.Employee.id == employee_id).first()
+    if not employee:
+        raise HTTPException(status_code=404, detail="Employee not found")
+    
+    # Check if attendance already marked today
+    today = date.today()
+    existing_attendance = db.query(models.Attendance).filter(
+        models.Attendance.employee_id == employee_id,
+        models.Attendance.date == today
+    ).first()
+    
+    if existing_attendance:
+        if existing_attendance.in_time:
+            raise HTTPException(status_code=400, detail="Attendance already marked for today")
+    
+    # Create or update attendance record
+    if not existing_attendance:
+        attendance = models.Attendance(
+            employee_id=employee_id,
+            date=today,
+            in_time=datetime.now()
+        )
+        db.add(attendance)
+    else:
+        existing_attendance.in_time = datetime.now()
+    
+    db.commit()
+    
+    return {
+        "message": "Attendance marked successfully",
+        "location": location_check["location_name"],
+        "time": datetime.now().strftime("%I:%M %p")
+    }
+
+
+@app.post("/attendance/mark-out")
+def mark_attendance_out(
+    employee_id: int = Form(...),
+    latitude: float = Form(...),
+    longitude: float = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Mark attendance OUT - check location first"""
+    
+    # Verify location
+    location_check = is_location_allowed(latitude, longitude)
+    
+    if not location_check["allowed"]:
+        raise HTTPException(
+            status_code=403, 
+            detail="You are not at an allowed location. Please mark exit from office."
+        )
+    
+    # Check if employee exists
+    employee = db.query(models.Employee).filter(models.Employee.id == employee_id).first()
+    if not employee:
+        raise HTTPException(status_code=404, detail="Employee not found")
+    
+    # Find today's attendance record
+    today = date.today()
+    attendance = db.query(models.Attendance).filter(
+        models.Attendance.employee_id == employee_id,
+        models.Attendance.date == today
+    ).first()
+    
+    if not attendance or not attendance.in_time:
+        raise HTTPException(status_code=400, detail="Please mark IN time first")
+    
+    if attendance.out_time:
+        raise HTTPException(status_code=400, detail="Exit time already marked for today")
+    
+    # Update out time
+    attendance.out_time = datetime.now()
+    db.commit()
+    
+    return {
+        "message": "Exit time marked successfully",
+        "location": location_check["location_name"],
+        "time": datetime.now().strftime("%I:%M %p")
+    }
+
+
+@app.get("/attendance/{employee_id}")
+def get_attendance(
+    employee_id: int,
+    month: Optional[int] = None,
+    year: Optional[int] = None,
+    db: Session = Depends(get_db)
+):
+    """Get attendance records for an employee"""
+    
+    query = db.query(models.Attendance).filter(models.Attendance.employee_id == employee_id)
+    
+    # Apply filters if provided
+    if month and year:
+        query = query.filter(
+            models.Attendance.date >= date(year, month, 1)
+        )
+        # Get last day of month
+        if month == 12:
+            next_month = date(year + 1, 1, 1)
+        else:
+            next_month = date(year, month + 1, 1)
+        query = query.filter(models.Attendance.date < next_month)
+    
+    attendance_records = query.order_by(models.Attendance.date.desc()).all()
+    
+    return attendance_records

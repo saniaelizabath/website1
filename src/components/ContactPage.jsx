@@ -16,35 +16,35 @@ const ContactPage = () => {
     {
       name: "KOCHI OFFICE",
       address: "FIDA TOWER, KK PADMANABHAN ROAD, ERNAKULAM NORTH, 682018",
-      phone: "0484 312140",
+      phone: "0484 214 3140",
       email: "hello@magmarine.in",
       mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.0!2d76.2711!3d9.9816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTgnNTMuOCJOIDc2wrAxNicxNi4wIkU!5e0!3m2!1sen!2sin!4v1234567890"
     },
     {
       name: "CHENNAI OFFICE",
       address: "71, L&T SHIPBUILDING, KATTUPALLI, TAMIL NADU 600120",
-      phone: "0484 312140",
+      phone: "8714139489",
       email: "hello@magmarine.in",
       mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.0!2d80.1!3d13.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDEyJzAwLjAiTiA4MMKwMDYnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
     },
     {
       name: "MANGLORE BRANCH",
       address: "CSBD, KASBA BENGRE, MANGALURU, KARNATAKA 575001",
-      phone: "0484 312140",
+      phone: "9961866395",
       email: "hello@magmarine.in",
       mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.0!2d74.8!3d12.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU0JzAwLjAiTiA3NMKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
     },
     {
       name: "VIZAG BRANCH",
       address: "SITE OFFICE, HINDUSTAN SHIPYARD, VISAKHAPATNAM, ANDHRA PRADESH 530005",
-      phone: "0484 312140",
+      phone: "9539759593",
       email: "hello@magmarine.in",
       mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3800.0!2d83.3!3d17.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDQyJzAwLjAiTiA4M8KwMTgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
     },
     {
       name: "OVERSEAS BRANCH",
       address: "6A, LUMBARE AVE, KAMPALA, UGANDA",
-      phone: "0484 312140",
+      phone: "+256 752731787",
       email: "hello@magmarine.in",
       mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.0!2d32.6!3d0.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMTgnMDAuMCJOIDMywrAzNicwMC4wIkU!5e0!3m2!1sen!2sin!4v1234567890"
     }
