@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-
+import { useState } from 'react';
+import bg from '/backgrounds/portal.jpg'
 const ContactPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -10,7 +10,20 @@ const ContactPage = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const canvasRef = useRef(null);
+
+  // CUSTOMIZE COLORS HERE - Easy to modify!
+  const colors = {
+    // Contact Info Card (Phone & Email section)
+    contactCard: {
+      from: 'from-cyan-500',  // Change to: from-blue-600, from-teal-500, from-purple-600, etc.
+      to: 'to-blue-500'       // Change to: to-blue-700, to-teal-600, to-purple-700, etc.
+    },
+    // Talk to Us Button
+    talkButton: {
+      from: 'from-cyan-400',  // Change to: from-blue-500, from-teal-400, from-green-500, etc.
+      to: 'to-blue-500'       // Change to: to-blue-600, to-teal-500, to-green-600, etc.
+    }
+  };
 
   const locations = [
     {
@@ -50,89 +63,6 @@ const ContactPage = () => {
     }
   ];
 
-  // Animated hexagon background
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = document.documentElement.scrollHeight;
-    };
-
-    const hexagons = [];
-    const hexagonCount = 20;
-
-    class Hexagon {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 50 + 30;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.01;
-        this.opacity = Math.random() * 0.3 + 0.1;
-      }
-
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-        ctx.beginPath();
-        
-        for (let i = 0; i < 6; i++) {
-          const angle = (Math.PI / 3) * i;
-          const x = this.size * Math.cos(angle);
-          const y = this.size * Math.sin(angle);
-          if (i === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        
-        ctx.closePath();
-        ctx.strokeStyle = `rgba(34, 211, 238, ${this.opacity})`;
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      update() {
-        this.rotation += this.rotationSpeed;
-        this.draw();
-      }
-    }
-
-    const initHexagons = () => {
-      hexagons.length = 0;
-      for (let i = 0; i < hexagonCount; i++) {
-        hexagons.push(new Hexagon());
-      }
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hexagons.forEach(hex => hex.update());
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    resizeCanvas();
-    initHexagons();
-    animate();
-
-    const handleResize = () => {
-      resizeCanvas();
-      initHexagons();
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -159,21 +89,18 @@ const ContactPage = () => {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 pt-24 pb-20" style={{
-      backgroundImage: 'url("shipbuilding-website/awlogo/cert.jpg")',
+      backgroundImage: bg,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
       backgroundAttachment: 'fixed'
     }}>
-      {/* Animated Background */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none"
-      />
+      {/* Dark overlay for better text readability */}
+      <div className="fixed inset-0 bg-black/50 pointer-events-none"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in">
+        <div className="text-center mb-12">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
             Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Us</span>
           </h1>
@@ -183,18 +110,18 @@ const ContactPage = () => {
         </div>
 
         {/* Contact Info Card */}
-        <div className="max-w-4xl mx-auto mb-12 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl p-8 text-white text-center shadow-2xl">
+        <div className={`max-w-4xl mx-auto mb-12 bg-gradient-to-r ${colors.contactCard.from} ${colors.contactCard.to} rounded-2xl p-8 text-white text-center shadow-2xl`}>
           <div className="flex flex-col md:flex-row items-center justify-center gap-8">
             <div>
               <p className="text-sm uppercase tracking-wider mb-2 opacity-90">Phone</p>
-              <a href="tel:0484312140" className="text-2xl md:text-3xl font-bold hover:text-cyan-200 transition-colors">
+              <a href="tel:0484312140" className="text-2xl md:text-3xl font-bold hover:from-blue-400 transition-colors">
                 0484 312140
               </a>
             </div>
             <div className="hidden md:block w-px h-16 bg-white/30"></div>
             <div>
               <p className="text-sm uppercase tracking-wider mb-2 opacity-90">Email</p>
-              <a href="mailto:hello@magmarine.in" className="text-2xl md:text-3xl font-bold hover:text-cyan-200 transition-colors">
+              <a href="mailto:hello@magmarine.in" className="text-2xl md:text-3xl font-bold hover:from-blue-400 transition-colors">
                 hello@magmarine.in
               </a>
             </div>
@@ -205,7 +132,7 @@ const ContactPage = () => {
         <div className="text-center mb-12">
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-12 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 transform"
+            className={`bg-gradient-to-r ${colors.talkButton.from} ${colors.talkButton.to} text-white px-12 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 transform`}
           >
             {showForm ? 'Close Form' : 'Talk to Us'}
           </button>
@@ -213,7 +140,7 @@ const ContactPage = () => {
 
         {/* Contact Form */}
         {showForm && (
-          <div className="max-w-2xl mx-auto mb-16 animate-slide-down">
+          <div className="max-w-2xl mx-auto mb-16">
             <div className="bg-slate-800/70 backdrop-blur-xl p-8 rounded-2xl border border-cyan-400/30 shadow-2xl">
               <h2 className="text-3xl font-bold text-white mb-6 text-center">Send us a Message</h2>
               <div className="space-y-6">
@@ -348,17 +275,6 @@ const ContactPage = () => {
       </div>
 
       <style jsx>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slide-down {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fade-in 0.6s ease-out; }
-        .animate-slide-down { animation: slide-down 0.4s ease-out; }
-        
         /* Custom scrollbar */
         ::-webkit-scrollbar {
           height: 8px;

@@ -1,5 +1,8 @@
+
+
 // // src/components/ServicesPage.jsx
 // import { useState } from 'react';
+// import servicesBackground from '/backgrounds/services.jpg';
 
 // const ServicesPage = () => {
 //   const [selectedService, setSelectedService] = useState(null);
@@ -55,7 +58,7 @@
 //     {
 //       id: 5,
 //       title: "Support Services",
-//       image: "https://images.unsplash.com/photo-1621544402532-6d8555e1d8f8?w=800",
+//       image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800",
 //       items: [
 //         "Manpower Supply",
 //         "Diving Equipment Rental"
@@ -65,106 +68,220 @@
 //   ];
 
 //   return (
-//     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 pt-32 pb-20">
-//       <div className="container mx-auto px-6">
-//         {/* Header */}
-//         <div className="text-center mb-16 animate-fade-in">
-//           <h1 className="text-6xl font-bold text-white mb-4 tracking-tight">
-//             Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Services</span>
-//           </h1>
-//           <p className="text-blue-200 text-lg max-w-2xl mx-auto">
-//             Comprehensive marine solutions tailored to meet your specific needs
-//           </p>
-//         </div>
+//     <div className="min-h-screen relative">
+//       {/* Background Image with Overlay */}
+//       <div 
+//         className="fixed inset-0 z-0"
+//         style={{
+//           backgroundImage: `url(${servicesBackground})`,
+//           backgroundSize: 'cover',
+//           backgroundPosition: 'center',
+//           backgroundAttachment: 'fixed',
+//         }}
+//       >
+//         {/* Dark overlay for readability */}
+//         <div className="absolute inset-0 bg-gradient-to-b from-slate-500/50 via-blue-750/85 to-slate-600/90"></div>
+//         {/* Additional overlay for depth */}
+//         {/* <div className="absolute inset-0 bg-slate-900/30"></div> */}
+//       </div>
 
-//         {/* Services Grid */}
-//         {!selectedService ? (
-//           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-//             {services.map((service) => (
-//               <div
-//                 key={service.id}
-//                 onClick={() => setSelectedService(service)}
-//                 className="group relative bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-500/20 cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/30"
-//               >
-//                 {/* Image */}
-//                 <div className="relative h-64 overflow-hidden">
-//                   <img 
-//                     src={service.image} 
-//                     alt={service.title}
-//                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-//                   />
-//                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-//                 </div>
-
-//                 {/* Title */}
-//                 <div className="absolute bottom-0 left-0 right-0 p-6">
-//                   <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-//                     {service.title}
-//                   </h3>
-//                   <p className="text-blue-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-//                     Click to learn more →
-//                   </p>
-//                 </div>
-//               </div>
-//             ))}
+//       {/* Content */}
+//       <div className="relative z-10 pt-32 pb-20">
+//         <div className="container mx-auto px-6">
+//           {/* Header */}
+//           <div className="text-center mb-16 animate-fade-in">
+//             <h1 className="text-6xl font-bold text-white mb-4 tracking-tight">
+//               Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Services</span>
+//             </h1>
+//             <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+//               Comprehensive marine solutions tailored to meet your specific needs
+//             </p>
 //           </div>
-//         ) : (
-//           /* Expanded Service View */
-//           <div className="max-w-5xl mx-auto animate-fade-in">
-//             {/* Back Button */}
-//             <button
-//               onClick={() => setSelectedService(null)}
-//               className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 mb-8 group"
-//             >
-//               <svg className="w-6 h-6 mr-2 transform group-hover:-translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-//               </svg>
-//               Back to Services
-//             </button>
 
-//             {/* Service Detail Card */}
-//             <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-blue-500/20">
-//               <div className="grid md:grid-cols-2 gap-8">
-//                 {/* Image */}
-//                 <div className="relative h-96 md:h-auto">
-//                   <img 
-//                     src={selectedService.image} 
-//                     alt={selectedService.title}
-//                     className="w-full h-full object-cover"
-//                   />
-//                   <div className="absolute inset-0 bg-gradient-to-r from-slate-900/50 to-transparent"></div>
-//                 </div>
-
-//                 {/* Content */}
-//                 <div className="p-8">
-//                   <h2 className="text-4xl font-bold text-white mb-6">
-//                     {selectedService.title}
-//                   </h2>
-
-//                   {/* Service Items */}
-//                   <div className="mb-6">
-//                     <h3 className="text-xl font-semibold text-cyan-400 mb-4">What We Offer</h3>
-//                     <ul className="space-y-3">
-//                       {selectedService.items.map((item, index) => (
-//                         <li key={index} className="text-blue-100 flex items-start">
-//                           <span className="text-cyan-400 mr-3 text-xl">▸</span>
-//                           <span className="leading-relaxed">{item}</span>
-//                         </li>
-//                       ))}
-//                     </ul>
+//           {/* Services Grid */}
+//           {!selectedService ? (
+//             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+//               {services.map((service) => (
+//                 <div
+//                   key={service.id}
+//                   onClick={() => setSelectedService(service)}
+//                   className="group relative bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden border border-blue-500/20 cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/30"
+//                 >
+//                   {/* Image */}
+//                   <div className="relative h-64 overflow-hidden">
+//                     <img 
+//                       src={service.image} 
+//                       alt={service.title}
+//                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+//                     />
+//                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+                    
+//                     {/* Hover Overlay */}
+//                     <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 //                   </div>
 
-//                   {/* Description */}
-//                   <div className="pt-6 border-t border-blue-500/30">
-//                     <p className="text-blue-100 leading-relaxed">
-//                       {selectedService.description}
+//                   {/* Title */}
+//                   <div className="absolute bottom-0 left-0 right-0 p-6">
+//                     <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+//                       {service.title}
+//                     </h3>
+//                     <p className="text-blue-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+//                       Click to learn more 
+//                       <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+//                       </svg>
 //                     </p>
+//                   </div>
+
+//                   {/* Item Count Badge */}
+//                   <div className="absolute top-4 right-4 bg-cyan-500/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+//                     {service.items.length} Services
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           ) : (
+//             /* Expanded Service View */
+//             <div className="max-w-5xl mx-auto animate-fade-in">
+//               {/* Back Button */}
+//               <button
+//                 onClick={() => setSelectedService(null)}
+//                 className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 mb-8 group bg-slate-800/50 backdrop-blur-sm px-6 py-3 rounded-full border border-cyan-500/30 hover:border-cyan-500/50"
+//               >
+//                 <svg className="w-6 h-6 mr-2 transform group-hover:-translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+//                 </svg>
+//                 Back to Services
+//               </button>
+
+//               {/* Service Detail Card */}
+//               <div className="bg-slate-800/70 backdrop-blur-lg rounded-2xl overflow-hidden border border-blue-500/20 shadow-2xl">
+//                 <div className="grid md:grid-cols-2 gap-0">
+//                   {/* Image */}
+//                   <div className="relative h-96 md:h-auto">
+//                     <img 
+//                       src={selectedService.image} 
+//                       alt={selectedService.title}
+//                       className="w-full h-full object-cover"
+//                     />
+//                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/50 to-transparent"></div>
+                    
+//                     {/* Floating Service Number */}
+//                     <div className="absolute top-6 left-6 w-16 h-16 bg-cyan-500/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl">
+//                       {selectedService.id}
+//                     </div>
+//                   </div>
+
+//                   {/* Content */}
+//                   <div className="p-8">
+//                     <h2 className="text-4xl font-bold text-white mb-6">
+//                       {selectedService.title}
+//                     </h2>
+
+//                     {/* Service Items */}
+//                     <div className="mb-6">
+//                       <h3 className="text-xl font-semibold text-cyan-400 mb-4 flex items-center gap-2">
+//                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+//                         </svg>
+//                         What We Offer
+//                       </h3>
+//                       <ul className="space-y-3">
+//                         {selectedService.items.map((item, index) => (
+//                           <li key={index} className="text-blue-100 flex items-start group/item hover:translate-x-2 transition-transform duration-300">
+//                             <span className="text-cyan-400 mr-3 text-xl flex-shrink-0">▸</span>
+//                             <span className="leading-relaxed group-hover/item:text-white transition-colors">{item}</span>
+//                           </li>
+//                         ))}
+//                       </ul>
+//                     </div>
+
+//                     {/* Description */}
+//                     <div className="pt-6 border-t border-blue-500/30">
+//                       <h3 className="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2">
+//                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                         </svg>
+//                         Overview
+//                       </h3>
+//                       <p className="text-blue-100 leading-relaxed">
+//                         {selectedService.description}
+//                       </p>
+//                     </div>
+
+//                     {/* CTA Button */}
+//                     <div className="mt-8">
+//                       <a
+//                         href="/contact"
+//                         className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+//                       >
+//                         <span>Get a Quote</span>
+//                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+//                         </svg>
+//                       </a>
+//                     </div>
 //                   </div>
 //                 </div>
 //               </div>
 //             </div>
-//           </div>
-//         )}
+//           )}
+
+//           {/* Why Choose Us Section */}
+//           {!selectedService && (
+//             <div className="mt-20 max-w-6xl mx-auto">
+//               <h2 className="text-4xl font-bold text-white text-center mb-12">
+//                 Why Choose{" "}
+//                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
+//                   Our Services
+//                 </span>
+//               </h2>
+              
+//               <div className="grid md:grid-cols-3 gap-6">
+//                 {[
+//                   {
+//                     title: "Expert Team",
+//                     description: "Highly skilled professionals with years of maritime industry experience",
+//                     icon: (
+//                       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+//                       </svg>
+//                     ),
+//                   },
+//                   {
+//                     title: "Quality Standards",
+//                     description: "All work adheres to international maritime safety and quality standards",
+//                     icon: (
+//                       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+//                       </svg>
+//                     ),
+//                   },
+//                   {
+//                     title: "On-Time Delivery",
+//                     description: "Committed to meeting project deadlines without compromising quality",
+//                     icon: (
+//                       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+//                       </svg>
+//                     ),
+//                   },
+//                 ].map((feature, index) => (
+//                   <div
+//                     key={index}
+//                     className="bg-slate-800/50 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-8 hover:border-cyan-500/50 hover:scale-105 transition-all duration-300 group"
+//                   >
+//                     <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
+//                       {feature.icon}
+//                     </div>
+//                     <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
+//                     <p className="text-blue-200 leading-relaxed">{feature.description}</p>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           )}
+//         </div>
 //       </div>
 
 //       <style jsx>{`
@@ -190,12 +307,25 @@
 // export default ServicesPage;
 
 
+
 // src/components/ServicesPage.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import servicesBackground from '/backgrounds/services.jpg';
 
 const ServicesPage = () => {
   const [selectedService, setSelectedService] = useState(null);
+  const navigate = useNavigate();
+
+  // Scroll to top when component mounts or when selectedService changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [selectedService]);
+
+  const handleGetQuote = () => {
+    // Navigate to contact page and scroll to the form
+    navigate('/contact', { state: { scrollToForm: true } });
+  };
 
   const services = [
     {
@@ -259,76 +389,76 @@ const ServicesPage = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Overlay - Properly imported */}
       <div 
         className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: `url(${servicesBackground})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
       >
+        <img
+          src={servicesBackground}
+          alt="Services background"
+          className="w-full h-full object-cover"
+        />
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-700/80 via-blue-950/85 to-slate-700/90"></div>
-        {/* Additional overlay for depth */}
-        {/* <div className="absolute inset-0 bg-slate-900/30"></div> */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-500/50 via-blue-750/85 to-slate-600/90"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 pt-32 pb-20">
-        <div className="container mx-auto px-6">
+      <div className="relative z-10 pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-6xl font-bold text-white mb-4 tracking-tight">
+          <div className="text-center mb-12 sm:mb-16 animate-fade-in">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
               Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Services</span>
             </h1>
-            <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+            <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto px-4">
               Comprehensive marine solutions tailored to meet your specific needs
             </p>
           </div>
 
-          {/* Services Grid */}
+          {/* Services Grid - Centered */}
           {!selectedService ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {services.map((service) => (
-                <div
-                  key={service.id}
-                  onClick={() => setSelectedService(service)}
-                  className="group relative bg-slate-800/60 backdrop-blur-md rounded-2xl overflow-hidden border border-blue-500/20 cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/30"
-                >
-                  {/* Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-                    
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  </div>
+            <div className="flex justify-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl w-full">
+                {services.map((service) => (
+                  <div
+                    key={service.id}
+                    onClick={() => setSelectedService(service)}
+                    className="group relative bg-slate-800/60 backdrop-blur-md rounded-xl sm:rounded-2xl overflow-hidden border border-blue-500/20 cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/30"
+                  >
+                    {/* Image */}
+                    <div className="relative h-56 sm:h-64 overflow-hidden">
+                      <img 
+                        src={service.image} 
+                        alt={service.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+                      
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-cyan-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
 
-                  {/* Title */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    <p className="text-blue-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
-                      Click to learn more 
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </p>
-                  </div>
+                    {/* Title */}
+                    <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                        {service.title}
+                      </h3>
+                      <p className="text-blue-300 text-xs sm:text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                        Click to learn more 
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </p>
+                    </div>
 
-                  {/* Item Count Badge */}
-                  <div className="absolute top-4 right-4 bg-cyan-500/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                    {service.items.length} Services
+                    {/* Item Count Badge */}
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-cyan-500/80 backdrop-blur-sm text-white text-xs font-bold px-2.5 sm:px-3 py-1 rounded-full shadow-lg">
+                      {service.items.length} Services
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           ) : (
             /* Expanded Service View */
@@ -336,50 +466,51 @@ const ServicesPage = () => {
               {/* Back Button */}
               <button
                 onClick={() => setSelectedService(null)}
-                className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 mb-8 group bg-slate-800/50 backdrop-blur-sm px-6 py-3 rounded-full border border-cyan-500/30 hover:border-cyan-500/50"
+                className="flex items-center text-cyan-400 hover:text-cyan-300 transition-colors duration-300 mb-6 sm:mb-8 group bg-slate-800/50 backdrop-blur-sm px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border border-cyan-500/30 hover:border-cyan-500/50 text-sm sm:text-base"
               >
-                <svg className="w-6 h-6 mr-2 transform group-hover:-translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 mr-2 transform group-hover:-translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 Back to Services
               </button>
 
               {/* Service Detail Card */}
-              <div className="bg-slate-800/70 backdrop-blur-lg rounded-2xl overflow-hidden border border-blue-500/20 shadow-2xl">
+              <div className="bg-slate-800/70 backdrop-blur-lg rounded-xl sm:rounded-2xl overflow-hidden border border-blue-500/20 shadow-2xl">
                 <div className="grid md:grid-cols-2 gap-0">
                   {/* Image */}
-                  <div className="relative h-96 md:h-auto">
+                  <div className="relative h-64 sm:h-80 md:h-auto">
                     <img 
                       src={selectedService.image} 
                       alt={selectedService.title}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/50 to-transparent"></div>
                     
                     {/* Floating Service Number */}
-                    <div className="absolute top-6 left-6 w-16 h-16 bg-cyan-500/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl">
+                    <div className="absolute top-4 sm:top-6 left-4 sm:left-6 w-12 h-12 sm:w-16 sm:h-16 bg-cyan-500/90 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl">
                       {selectedService.id}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-8">
-                    <h2 className="text-4xl font-bold text-white mb-6">
+                  <div className="p-6 sm:p-8">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6">
                       {selectedService.title}
                     </h2>
 
                     {/* Service Items */}
-                    <div className="mb-6">
-                      <h3 className="text-xl font-semibold text-cyan-400 mb-4 flex items-center gap-2">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="mb-4 sm:mb-6">
+                      <h3 className="text-lg sm:text-xl font-semibold text-cyan-400 mb-3 sm:mb-4 flex items-center gap-2">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                         What We Offer
                       </h3>
-                      <ul className="space-y-3">
+                      <ul className="space-y-2 sm:space-y-3">
                         {selectedService.items.map((item, index) => (
-                          <li key={index} className="text-blue-100 flex items-start group/item hover:translate-x-2 transition-transform duration-300">
-                            <span className="text-cyan-400 mr-3 text-xl flex-shrink-0">▸</span>
+                          <li key={index} className="text-blue-100 flex items-start group/item hover:translate-x-2 transition-transform duration-300 text-sm sm:text-base">
+                            <span className="text-cyan-400 mr-2 sm:mr-3 text-lg sm:text-xl flex-shrink-0">▸</span>
                             <span className="leading-relaxed group-hover/item:text-white transition-colors">{item}</span>
                           </li>
                         ))}
@@ -387,29 +518,29 @@ const ServicesPage = () => {
                     </div>
 
                     {/* Description */}
-                    <div className="pt-6 border-t border-blue-500/30">
-                      <h3 className="text-xl font-semibold text-cyan-400 mb-3 flex items-center gap-2">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="pt-4 sm:pt-6 border-t border-blue-500/30">
+                      <h3 className="text-lg sm:text-xl font-semibold text-cyan-400 mb-2 sm:mb-3 flex items-center gap-2">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         Overview
                       </h3>
-                      <p className="text-blue-100 leading-relaxed">
+                      <p className="text-blue-100 leading-relaxed text-sm sm:text-base">
                         {selectedService.description}
                       </p>
                     </div>
 
                     {/* CTA Button */}
-                    <div className="mt-8">
-                      <a
-                        href="/contact"
-                        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+                    <div className="mt-6 sm:mt-8">
+                      <button
+                        onClick={handleGetQuote}
+                        className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 text-sm sm:text-base"
                       >
                         <span>Get a Quote</span>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -419,21 +550,21 @@ const ServicesPage = () => {
 
           {/* Why Choose Us Section */}
           {!selectedService && (
-            <div className="mt-20 max-w-6xl mx-auto">
-              <h2 className="text-4xl font-bold text-white text-center mb-12">
+            <div className="mt-16 sm:mt-20 max-w-6xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-8 sm:mb-12">
                 Why Choose{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
                   Our Services
                 </span>
               </h2>
               
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
                 {[
                   {
                     title: "Expert Team",
                     description: "Highly skilled professionals with years of maritime industry experience",
                     icon: (
-                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
                     ),
@@ -442,7 +573,7 @@ const ServicesPage = () => {
                     title: "Quality Standards",
                     description: "All work adheres to international maritime safety and quality standards",
                     icon: (
-                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     ),
@@ -451,7 +582,7 @@ const ServicesPage = () => {
                     title: "On-Time Delivery",
                     description: "Committed to meeting project deadlines without compromising quality",
                     icon: (
-                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     ),
@@ -459,13 +590,13 @@ const ServicesPage = () => {
                 ].map((feature, index) => (
                   <div
                     key={index}
-                    className="bg-slate-800/50 backdrop-blur-md border border-cyan-500/20 rounded-2xl p-8 hover:border-cyan-500/50 hover:scale-105 transition-all duration-300 group"
+                    className="bg-slate-800/50 backdrop-blur-md border border-cyan-500/20 rounded-xl sm:rounded-2xl p-6 sm:p-8 hover:border-cyan-500/50 hover:scale-105 transition-all duration-300 group"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-full flex items-center justify-center text-cyan-400 mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                       {feature.icon}
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
-                    <p className="text-blue-200 leading-relaxed">{feature.description}</p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{feature.title}</h3>
+                    <p className="text-blue-200 leading-relaxed text-sm sm:text-base">{feature.description}</p>
                   </div>
                 ))}
               </div>
