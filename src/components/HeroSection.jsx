@@ -8,13 +8,13 @@ const HeroSection = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [activeVideo, setActiveVideo] = useState('A');
 
-  // Import videos from src/videos folder
+  // Import videos from src/assets/videos folder
   const videos = [
-    '/src/videos/ship.mp4',
-    '/src/videos/sailing-ship.mp4',
-    '/src/videos/ship-inside.mp4',
-    '/src/videos/ship-repair.mp4',
-    '/src/videos/diving.mp4',
+    '/src/assets/videos/ship.mp4',
+    '/src/assets/videos/sailing-ship.mp4',
+    '/src/assets/videos/ship-inside.mp4',
+    '/src/assets/videos/ship-repair.mp4',
+    '/src/assets/videos/diving.mp4',
   ];
 
   const activeRef = activeVideo === 'A' ? videoARef : videoBRef;
