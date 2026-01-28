@@ -1,4 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import ship from '../assets/videos/ship.mp4';
+import sailingShip from '../assets/videos/sailing-ship.mp4';
+import shipInside from '../assets/videos/ship-inside.mp4';
+import shipRepair from '../assets/videos/ship-repair.mp4';
+import diving from '../assets/videos/diving.mp4';
 
 const HeroSection = () => {
   const videoARef = useRef(null);
@@ -10,11 +15,11 @@ const HeroSection = () => {
 
   // Import videos from src/assets/videos folder
   const videos = [
-    '/src/assets/videos/ship.mp4',
-    '/src/assets/videos/sailing-ship.mp4',
-    '/src/assets/videos/ship-inside.mp4',
-    '/src/assets/videos/ship-repair.mp4',
-    '/src/assets/videos/diving.mp4',
+    ship,
+    sailingShip,
+    shipInside,
+    shipRepair,
+    diving,
   ];
 
   const activeRef = activeVideo === 'A' ? videoARef : videoBRef;
