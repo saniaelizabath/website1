@@ -1,6 +1,6 @@
 import { useState } from "react";
 import founderImage from "/backgrounds/ceo.jpeg";
-import CircularGallery from './CircularGallery';
+import CircularGallery from './Circulargallery';
 import backgroundImage from "/backgrounds/ab.jpg";
 
 // Import all gallery images
