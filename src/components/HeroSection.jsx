@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import ship from '../assets/videos/ship.mp4';
 import sailingShip from '../assets/videos/sailing-ship.mp4';
 import shipInside from '../assets/videos/ship-inside.mp4';
-import shipRepair from '../assets/videos/ship-repair.mp4';
+import shipRepair from '../assets/videos/new.mp4';
 import diving from '../assets/videos/diving.mp4';
 
 const HeroSection = () => {

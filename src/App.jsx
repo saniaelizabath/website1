@@ -471,7 +471,7 @@ function App() {
       {currentPage === 'careers' && <CareersPage careers={careers} />}
       
       {/* Footer - Only show on non-home pages */}
-      {currentPage !== 'home' && <Footer />}
+      {currentPage !== 'home' && <Footer setCurrentPage={setCurrentPage} />}
 
       {/* Scroll to Top Button - Only show on non-home pages */}
       {currentPage !== 'home' && (

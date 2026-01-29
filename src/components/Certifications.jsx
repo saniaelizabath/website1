@@ -237,7 +237,7 @@ const Accreditation = () => {
             }`}
             style={{ fontFamily: 'Georgia, serif' }}
           >
-            ACCREDITATION & <span className="text-blue-700">CERTIFICATION</span>
+            <span className="text-cyan-900">ACCREDITATION &</span> <span className="text-cyan-700">CERTIFICATION</span>
           </h2>
           <div 
             className={`w-20 sm:w-24 h-0.5 bg-blue-700 mx-auto mt-4 sm:mt-5 mb-4 sm:mb-5 transition-all duration-1000 delay-200 ${
@@ -258,7 +258,7 @@ const Accreditation = () => {
             }`}
             style={{ fontFamily: 'Georgia, serif' }}
           >
-            Where marine challenges meet reliable solutions.
+            <span className="text-cyan-900">Where marine challenges meet reliable solutions.</span>
           </p>
         </div>
 

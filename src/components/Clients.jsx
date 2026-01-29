@@ -1,33 +1,54 @@
 // src/components/Clients.jsx
 import { useEffect, useRef } from 'react';
 
+// Import all client logos
+import ltShipbuilding from '/clientlogo/LT-Shipbuilding.png';
+import indianCoastGuard from '/clientlogo/indiancoastguard.avif';
+import johnsonControls from '/clientlogo/johnsoncontrols.png';
+import grse from '/clientlogo/grse.jpg';
+import oceanSparkle from '/clientlogo/Ocean-Sparkle-Limited.jpg';
+import kongsberg from '/clientlogo/kongsberg-digital.png';
+import chowgule from '/clientlogo/chowglue.jpeg';
+import indianNavy from '/clientlogo/indiannavyusnavy.png';
+import solasMarine from '/clientlogo/solas.jpg';
+import gmmcoCat from '/clientlogo/gmmco.png';
+import cochinShipyard from '/clientlogo/cochin-shipyard.jpg';
+import msc from '/clientlogo/msc.jpg';
+import wspl from '/clientlogo/wspl.png';
+import mazagonDock from '/clientlogo/naval-ship-karwar.png';
+import udupi from '/clientlogo/udupi.jpeg';
+import ltDefence from '/clientlogo/LTdefence.jpg';
+import hsl from '/clientlogo/hsl.jpg';
+import adaniPorts from '/clientlogo/Adani-Port-Container-Tracking.webp';
+import ussSalvor from '/clientlogo/USS_Salvor.jpg';
+
 const Clients = () => {
   const scrollRef1 = useRef(null);
   const scrollRef2 = useRef(null);
 
   const clientsRow1 = [
-    { name: "L&T Shipbuilding", logo: "/clientlogo/LT-Shipbuilding.png" },
-    { name: "Indian Coast Guard", logo: "/clientlogo/indiancoastguard.avif" },
-    { name: "Johnson Controls", logo: "/clientlogo/johnsoncontrols.png" },
-    { name: "Garden Reach Shipbuilders", logo: "/clientlogo/grse.jpg" },
-    { name: "Ocean Sparkle Limited", logo: "/clientlogo/Ocean-Sparkle-Limited.jpg" },
-    { name: "Kongsberg", logo: "/clientlogo/kongsberg-digital.png" },
-    { name: "Chowgule SBD", logo: "/clientlogo/chowglue.jpeg" },
-    { name: "Indian Navy", logo: "/clientlogo/indiannavyusnavy.png" },
-    { name: "Solas Marine", logo: "/clientlogo/solas.jpg" },
-    { name: "Gmmco CAT", logo: "/clientlogo/gmmco.png" }
+    { name: "L&T Shipbuilding", logo: ltShipbuilding },
+    { name: "Indian Coast Guard", logo: indianCoastGuard },
+    { name: "Johnson Controls", logo: johnsonControls },
+    { name: "Garden Reach Shipbuilders", logo: grse },
+    { name: "Ocean Sparkle Limited", logo: oceanSparkle },
+    { name: "Kongsberg", logo: kongsberg },
+    { name: "Chowgule SBD", logo: chowgule },
+    { name: "Indian Navy", logo: indianNavy },
+    { name: "Solas Marine", logo: solasMarine },
+    { name: "Gmmco CAT", logo: gmmcoCat }
   ];
 
   const clientsRow2 = [
-    { name: "Cochin Shipyard", logo: "/clientlogo/cochin-shipyard.jpg" },
-    { name: "MSC Kreuzfahrten", logo: "/clientlogo/msc.jpg" },
-    { name: "WSPL", logo: "/clientlogo/wspl.png" },
-    { name: "Mazagon Dock", logo: "/clientlogo/naval-ship-karwar.png" },
-    { name: "UDUPI", logo: "/clientlogo/udupi.jpeg" },
-    { name: "L&T Defence", logo: "/clientlogo/LTdefence.jpg" },
-    { name: "Hindustan Shipyard", logo: "/clientlogo/hsl.jpg" },
-    { name: "Adani Ports", logo: "/clientlogo/Adani-Port-Container-Tracking.webp" },
-    { name: "USS Salvor", logo: "/clientlogo/USS_Salvor.jpg" }
+    { name: "Cochin Shipyard", logo: cochinShipyard },
+    { name: "MSC Kreuzfahrten", logo: msc },
+    { name: "WSPL", logo: wspl },
+    { name: "Mazagon Dock", logo: mazagonDock },
+    { name: "UDUPI", logo: udupi },
+    { name: "L&T Defence", logo: ltDefence },
+    { name: "Hindustan Shipyard", logo: hsl },
+    { name: "Adani Ports", logo: adaniPorts },
+    { name: "USS Salvor", logo: ussSalvor }
   ];
 
   return (

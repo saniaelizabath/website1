@@ -1,6 +1,11 @@
 // src/components/Footer.jsx
-const Footer = () => {
+const Footer = ({ setCurrentPage }) => {
   const currentYear = new Date().getFullYear();
+
+  const handleNavClick = (pageId) => {
+    setCurrentPage(pageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <footer className="bg-slate-950 border-t border-blue-500/20">
@@ -21,16 +26,21 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {['About Us', 'Services', 'Projects', 'Careers'].map((item) => (
-                <li key={item}>
-                  <a 
-                    href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="text-blue-300 hover:text-cyan-400 transition-colors duration-300"
+              { [
+                { label: 'About Us', id: 'about' },
+                { label: 'Services', id: 'services' },
+                { label: 'Projects', id: 'projects' },
+                { label: 'Careers', id: 'careers' }
+              ].map((item) => (
+                <li key={item.id}>
+                  <button 
+                    onClick={() => handleNavClick(item.id)}
+                    className="text-blue-300 hover:text-cyan-400 transition-colors duration-300 cursor-pointer bg-none border-none p-0"
                   >
-                    {item}
-                  </a>
+                    {item.label}
+                  </button>
                 </li>
-              ))}
+              )) }
             </ul>
           </div>
 
@@ -38,9 +48,8 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-blue-200">
-              <li>Email: info@magmarine.com</li>
-              <li>Phone: +91 XXX XXX XXXX</li>
-              <li>Location: India</li>
+              <li>Email: hello@magmarine.in</li>
+              <li>Primary Number: 0484 312140</li>
             </ul>
           </div>
         </div>

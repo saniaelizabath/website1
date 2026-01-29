@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import logo from '/backgrounds/logonew.png';
 
 const Header = ({ currentPage, setCurrentPage }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -30,17 +31,27 @@ const Header = ({ currentPage, setCurrentPage }) => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div className="container mx-auto px-6 py-6">
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-slate-900/20 backdrop-blur-xl border border-slate-400/20">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Left spacer */}
-            <div className="w-12"></div>
-            
-            {/* Center - Company Name */}
-            <div className="flex-1 flex justify-center">
+            {/* Center - Logo & Title */}
+            <div className="flex-1 flex items-center justify-center gap-3">
+              {/* Logo */}
+              <div 
+                onClick={() => handleNavClick('home')}
+                className="cursor-pointer hover:opacity-80 transition-opacity duration-300"
+              >
+                <img 
+                  src={logo} 
+                  alt="Mag Marine Logo"
+                  className="h-12 w-12 md:h-14 md:w-14 object-contain"
+                />
+              </div>
+
+              {/* Title */}
               <h1 
                 onClick={() => handleNavClick('home')}
-                className="text-xl md:text-2xl font-bold text-white tracking-widest cursor-pointer hover:text-gray-300 transition-colors duration-300"
+                className="text-sm md:text-lg font-bold text-white tracking-wide cursor-pointer hover:text-gray-300 transition-colors duration-300 whitespace-nowrap"
               >
                 MAG MARINE SERVICES PVT. LTD.
               </h1>

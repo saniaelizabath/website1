@@ -1,56 +1,87 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Date, ForeignKey
-from sqlalchemy.orm import relationship
-from database import Base
-from datetime import datetime
+from pydantic import BaseModel, Field, EmailStr
+from typing import Optional
+from datetime import datetime, date
+from bson import ObjectId
 
 
-class Admin(Base):
-    __tablename__ = "admins"
+# Custom ObjectId handler
+class PyObjectId(ObjectId):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
 
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    password_hash = Column(String)
+    @classmethod
+    def validate(cls, v):
+        if not ObjectId.is_valid(v):
+            raise ValueError("Invalid ObjectId")
+        return ObjectId(v)
 
-
-class News(Base):
-    __tablename__ = "news"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    description = Column(Text, nullable=False)
-    image_path = Column(String, nullable=False)
-    date = Column(String, nullable=False)
-
-
-class Job(Base):
-    __tablename__ = "jobs"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    description = Column(Text, nullable=False)
-    location = Column(String, nullable=False)
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string")
 
 
-class Employee(Base):
-    __tablename__ = "employees"
+# Admin Model
+class Admin(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    email: str
+    password_hash: str
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)  # e.g., "Employee 1"
-    email = Column(String, unique=True, index=True)
-    password_hash = Column(String)  # Storing plain text as per your requirement
-    
-    # Relationship to attendance records
-    attendance_records = relationship("Attendance", back_populates="employee")
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
 
 
-class Attendance(Base):
-    __tablename__ = "attendance"
+# News Model
+class News(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    title: str
+    description: str
+    image_path: str
+    date: str
 
-    id = Column(Integer, primary_key=True, index=True)
-    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False)
-    date = Column(Date, nullable=False)  # Date of attendance
-    in_time = Column(DateTime, nullable=True)  # Check-in time
-    out_time = Column(DateTime, nullable=True)  # Check-out time
-    
-    # Relationship to employee
-    employee = relationship("Employee", back_populates="attendance_records")
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+# Job Model
+class Job(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    title: str
+    description: str
+    location: str
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+# Employee Model
+class Employee(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
+    email: str
+    password_hash: str
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
+
+
+# Attendance Model
+class Attendance(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    employee_id: int  # Keep as int to match your employee IDs
+    date: date
+    in_time: Optional[datetime] = None
+    out_time: Optional[datetime] = None
+
+    class Config:
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str, date: lambda v: v.isoformat(), datetime: lambda v: v.isoformat()}
